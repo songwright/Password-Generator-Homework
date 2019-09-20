@@ -89,6 +89,11 @@ function getPasswordOptions() {
     return;
   }
 
+  // Variable to store boolean regarding the inclusion of special characters
+  var hasSpecialCharacters = confirm(
+    "Click OK to confirm including special characters."
+  );
+
   // Variable to store boolean regarding the inclusion of numeric characters
   var hasNumericCharacters = confirm(
     "Click OK to confirm including numeric characters."
@@ -106,6 +111,7 @@ function getPasswordOptions() {
 
   // Conditional statement to check if user does not include any types of characters. Password generator ends if all four variables evaluate to false
   if (
+    hasSpecialCharacters === false &&
     hasNumericCharacters === false &&
     hasLowerCasedCharacters === false &&
     hasUpperCasedCharacters === false
@@ -117,6 +123,7 @@ function getPasswordOptions() {
   // Object to store user input
   var passwordOptions = {
     length: length,
+    hasSpecialCharacters: hasSpecialCharacters,
     hasNumericCharacters: hasNumericCharacters,
     hasLowerCasedCharacters: hasLowerCasedCharacters,
     hasUpperCasedCharacters: hasUpperCasedCharacters
@@ -144,6 +151,13 @@ function generatePassword() {
 
   // Array to contain one of each type of chosen character to ensure each will be used
   var guaranteedCharacters = [];
+
+  // Conditional statement that adds array of special characters into array of possible characters based on user input
+  // Push new random numeric character to guaranteedCharacters
+  if (options.hasSpecialCharacters) {
+    possibleCharacters = possibleCharacters.concat(specialCharacters);
+    guaranteedCharacters.push(getRandom(specialCharacters));
+  }
 
   // Conditional statement that adds array of numeric characters into array of possible characters based on user input
   // Push new random numeric character to guaranteedCharacters
